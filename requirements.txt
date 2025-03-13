@@ -1,0 +1,6 @@
+﻿gspread==6.1.4
+gspread_dataframe
+matplotlib==3.9.2
+pandas==2.2.3
+seaborn==0.13.2
+yfinance==0.2.54

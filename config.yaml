@@ -1,0 +1,28 @@
+symbols_yfinance:
+  AUS200: "^AXJO"   # Australian ASX 200 Index
+  ESP35: "^IBEX"    # Spanish IBEX 35 Index
+  EUSTX50: "^STOXX50E"  # Euro Stoxx 50 Index
+  FRA40: "^FCHI"    # French CAC 40 Index
+  GER40: "^GDAXI"   # German DAX 40 Index
+  JPN225: "^N225"   # Japanese Nikkei 225 Index
+  NAS100: "^IXIC"   # NASDAQ 100 Index
+  SPX500: "^GSPC"   # S&P 500 Index
+  UK100: "^FTSE"    # UK FTSE 100 Index
+  US30: "^DJI"      # US Dow Jones Industrial Average
+  
+symbol_coefficients:
+  JPN225: 0.01
+  AUS200: 0.06
+  SPX500: 0.10
+  EUSTX50: 0.10
+  UK100: 0.12
+  NAS100: 0.10
+  FRA40: 0.10
+  GER40: 0.10
+  ESP35: 0.10
+  US30: 0.14
+  XAUUSD: 1.00
+
+daily_period: "30y"   # Fetch daily-level data for the past 10 years
+daily_interval: "1d"  # Use 1-day interval for historical daily data
+output_directory: "."  # Directory where CSV files will be saved
