@@ -25,13 +25,3 @@ jobs:
 
       - name: Run overview.py
         run: python overview.py
-
-      - name: Commit and Push Plot Results
-        env:
-          GH_PAT: ${{ secrets.CREDENTIAL_GITHUB }}
-        run: |
-          git config user.name "syachrulqolbi"
-          git config user.email "syachrulqolbinursepti@gmail.com"
-          git add plots/
-          git commit -m "Update plots from daily run $(date)" || echo "No changes to commit"
-          git push https://x-access-token:${{secrets.CREDENTIAL_GITHUB}}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
