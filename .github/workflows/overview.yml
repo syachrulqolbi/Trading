@@ -34,5 +34,4 @@ jobs:
           git config user.email "syachrulqolbinursepti@gmail.com"
           git add plots/
           git commit -m "Update plots from daily run $(date)" || echo "No changes to commit"
-          git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
-      
+          git push https://x-access-token:${{secrets.CREDENTIAL_GITHUB}}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
