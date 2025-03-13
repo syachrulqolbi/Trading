@@ -30,8 +30,8 @@ jobs:
         env:
           GH_PAT: ${{ secrets.CREDENTIAL_GITHUB }}
         run: |
-          git config user.name "Auto Commit Bot"
-          git config user.email "autocommit@bot.com"
+          git config user.name "syachrulqolbi"
+          git config user.email "syachrulqolbinursepti@gmail.com"
           git add plots/
           git commit -m "Update plots from daily run $(date)" || echo "No changes to commit"
           git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
