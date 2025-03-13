@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt || echo "requirements.txt not found, skipping"
 
       - name: Run overview.py
-        run: python module/overview.py
+        run: python overview.py
 
       - name: Commit and Push Plot Results
         run: |
