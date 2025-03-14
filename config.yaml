@@ -9,6 +9,14 @@ symbols_yfinance:
   SPX500: "^GSPC"   # S&P 500 Index
   UK100: "^FTSE"    # UK FTSE 100 Index
   US30: "^DJI"      # US Dow Jones Industrial Average
+  JPM.NYSE: "JPM"
+  BAC.NYSE: "BAC"
+  WFC.NYSE: "WFC"
+  GS.NYSE: "GS"
+  MS.NYSE: "MS"
+  CBA.ASX: "CBA.AX"
+  NAB.ASX: "NAB.AX"
+  
   
 symbol_coefficients:
   JPN225: 0.01
@@ -21,7 +29,14 @@ symbol_coefficients:
   GER40: 0.10
   ESP35: 0.10
   US30: 0.14
-  XAUUSD: 1.00
+  JPM.NYSE: 1
+  BAC.NYSE: 1
+  WFC.NYSE: 1
+  GS.NYSE: 1
+  MS.NYSE: 1
+  CBA.ASX: 1
+  NAB.ASX: 1
+  
 
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
 daily_interval: "1d"  # Use 1-day interval for historical daily data
