@@ -41,3 +41,4 @@ symbol_coefficients:
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
 daily_interval: "1d"  # Use 1-day interval for historical daily data
 output_directory: "."  # Directory where CSV files will be saved
+std_multiplier: 1.28 # 68% within ±1σ, 75% within ±1.15σ, 80% within ±1.28σ, 85% within ±1.44σ, 90% within ±1.645σ, 95% within ±1.96σ, 99% within ±2.576σ, and 99.7% within ±3σ.
