@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from typing import Dict, Any
 from google_sheet_api import GoogleSheetsUploader
+from scipy.stats import zscore
 
 # === Configuration and Directory Setup ===
 BASE_DIR = os.getcwd()
@@ -110,7 +111,7 @@ def plot_price_gain(data, symbol, avg, std, upper_1std, lower_1std, upper_1_97st
 
 # === 365-Day Gain Analysis ===
 def analyze_365_day_gain(data: pd.DataFrame, symbol: str, std_multiplier: float):
-    """Calculate average gain and custom standard deviation bounds for 365-day price change."""
+    """Calculate average gain and adjusted standard deviation (excluding outliers above +2.576 std)."""
     data = data.copy()
     data["Date"] = pd.to_datetime(data["Datetime"], errors="coerce")
     data.sort_values("Date", inplace=True)
@@ -130,9 +131,14 @@ def analyze_365_day_gain(data: pd.DataFrame, symbol: str, std_multiplier: float)
     data["Price_Gain_Percentage"] = data["Price_Gain_Percentage"].round(2)
 
     avg = round(data["Price_Gain_Percentage"].mean(), 2)
-    std = round(data["Price_Gain_Percentage"].std(), 2)
-    upper = round(avg + std_multiplier * std, 2)
-    lower = round(avg - std_multiplier * std, 2)
+
+    # ✅ Remove outliers > +2.576 std for std calculation only
+    z_scores = zscore(data["Price_Gain_Percentage"])
+    filtered_data = data[(z_scores <= std_multiplier)]  # keeping everything within Z <= 2.576
+    filtered_std = round(filtered_data["Price_Gain_Percentage"].std(), 2)
+
+    upper = round(avg + std_multiplier * filtered_std, 2)
+    lower = round(avg - std_multiplier * filtered_std, 2)
 
     return data, avg, upper, lower, latest_date, latest_price
 
@@ -255,7 +261,12 @@ if __name__ == "__main__":
         plot_price_gain(annotated_df, symbol, avg, std, upper_1std, lower_1std, upper_1_97std, lower_1_97std)
 
         analyzed_data[symbol] = annotated_df
-        max_price = round(df["Close"].max(), 2) if "Close" in df.columns else None
+        # Before filtering
+        df["Datetime"] = pd.to_datetime(df["Datetime"], errors="coerce", utc=True)
+        ten_years_ago = pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=10)
+
+        # Safe comparison
+        max_price = round(df[df['Datetime'] >= ten_years_ago]["Close"].max(), 2) if "Close" in df.columns else None
 
         portfolio_df, ar_invest, _, _ = backtest_weekly_investment(
             df, initial_balance=0, invest_per_week=200, tp_percent=1.0,

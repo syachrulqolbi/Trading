@@ -9,15 +9,22 @@ symbols_yfinance:
   SPX500: "^GSPC"   # S&P 500 Index
   UK100: "^FTSE"    # UK FTSE 100 Index
   US30: "^DJI"      # US Dow Jones Industrial Average
-  JPM.NYSE: "JPM"
   BAC.NYSE: "BAC"
-  WFC.NYSE: "WFC"
   GS.NYSE: "GS"
+  JPM.NYSE: "JPM"
   MS.NYSE: "MS"
+  WFC.NYSE: "WFC"  
   CBA.ASX: "CBA.AX"
   NAB.ASX: "NAB.AX"
-  
-  
+  BNP.EPA: "BNP.PA"
+  BARC.LSE: "BARC.L"
+  HSBA.LSE: "HSBA.L"
+  ISP.MIL: "ISP.MI"
+  UCG.MIL: "UCG.MI"
+  BBVA.BM: "BBVA.MC"
+  CABK.BM: "CABK.MC"
+  SAN.BM: "SAN.MC"
+
 symbol_coefficients:
   JPN225: 0.01
   AUS200: 0.06
@@ -29,13 +36,21 @@ symbol_coefficients:
   GER40: 0.10
   ESP35: 0.10
   US30: 0.14
-  JPM.NYSE: 1
   BAC.NYSE: 1
-  WFC.NYSE: 1
   GS.NYSE: 1
+  JPM.NYSE: 1
   MS.NYSE: 1
+  WFC.NYSE: 1  
   CBA.ASX: 1
   NAB.ASX: 1
+  BNP.EPA: 1
+  BARC.LSE: 1
+  HSBA.LSE: 1
+  ISP.MIL: 1
+  UCG.MIL: 1
+  BBVA.BM: 1
+  CABK.BM: 1
+  SAN.BM: 1
   
 
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
