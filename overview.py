@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Dict, Any
 from google_sheet_api import GoogleSheetsUploader
 from scipy.stats import zscore
+import seaborn as sns
 
 # === Configuration and Directory Setup ===
 BASE_DIR = os.getcwd()
