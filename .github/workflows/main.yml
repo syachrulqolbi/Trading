@@ -1,4 +1,4 @@
-name: Run Overview Script Daily
+name: Run Main Script Daily
 
 on:
   schedule:
@@ -23,5 +23,5 @@ jobs:
           pip install -r requirements.txt || true
           pip install -r requirements.txt || echo "requirements.txt not found, skipping"
 
-      - name: Run overview.py
-        run: python overview.py
+      - name: Run main.py
+        run: python main.py

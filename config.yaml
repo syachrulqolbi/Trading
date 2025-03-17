@@ -41,16 +41,16 @@ symbol_coefficients:
   JPM.NYSE: 1
   MS.NYSE: 1
   WFC.NYSE: 1  
-  CBA.ASX: 1
-  NAB.ASX: 1
-  BNP.EPA: 1
-  BARC.LSE: 1
-  HSBA.LSE: 1
-  ISP.MIL: 1
-  UCG.MIL: 1
-  BBVA.BM: 1
-  CABK.BM: 1
-  SAN.BM: 1
+  CBA.ASX: 0.6
+  NAB.ASX: 0.6
+  BNP.EPA: 1.08
+  BARC.LSE: 1.29
+  HSBA.LSE: 1.29
+  ISP.MIL: 1.08
+  UCG.MIL: 1.08
+  BBVA.BM: 1.08
+  CABK.BM: 1.08
+  SAN.BM: 1.08
   
 
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
