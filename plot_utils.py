@@ -1,6 +1,6 @@
 import os
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 PLOTS_DIR = os.path.join(os.getcwd(), "plots")
 
@@ -10,24 +10,42 @@ def cleanup_existing_plots(plot_name: str):
     if os.path.exists(plot_path):
         os.remove(plot_path)
 
-def plot_price_gain(data, symbol, avg, std, upper_1std, lower_1std, upper_1_97std, lower_1_97std):
+def plot_price_gain(data, symbol, avg, std, upper_1std, lower_1std, upper_custom_std, lower_custom_std, std_multiplier):
     sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(14, 8))
+    fig, axs = plt.subplots(1, 2, figsize=(18, 8))  # Two subplots side by side
 
-    sns.scatterplot(data=data[data['Price_Gain_Percentage'] >= 0], x='Date', y='Price_Gain_Percentage', label='Gain ≥ 0%', color='green', alpha=0.6, s=10)
-    sns.scatterplot(data=data[data['Price_Gain_Percentage'] < 0], x='Date', y='Price_Gain_Percentage', label='Gain < 0%', color='red', alpha=0.6, s=10)
+    # --- Left Plot: Gain Plot ---
+    ax1 = axs[0]
+    sns.scatterplot(data=data[data['Price_Gain_Percentage'] >= 0], x='Date', y='Price_Gain_Percentage',
+                    label='Gain ≥ 0%', color='green', alpha=0.6, s=10, ax=ax1)
+    sns.scatterplot(data=data[data['Price_Gain_Percentage'] < 0], x='Date', y='Price_Gain_Percentage',
+                    label='Gain < 0%', color='red', alpha=0.6, s=10, ax=ax1)
 
-    plt.axhline(avg, color='blue', linestyle='--', label=f'Avg Gain: {avg}%')
-    plt.axhline(upper_1std, color='purple', linestyle='--', label=f'+1 Std: {upper_1std}%')
-    plt.axhline(lower_1std, color='orange', linestyle='--', label=f'-1 Std: {lower_1std}%')
-    plt.axhline(upper_1_97std, color='darkgreen', linestyle='--', label=f'+1.97 Std: {upper_1_97std}%')
-    plt.axhline(lower_1_97std, color='darkred', linestyle='--', label=f'-1.97 Std: {lower_1_97std}%')
+    ax1.axhline(avg, color='blue', linestyle='--', label=f'Avg Gain: {avg}%')
+    ax1.axhline(upper_1std, color='purple', linestyle='--', label=f'+1 Std: {upper_1std}%')
+    ax1.axhline(lower_1std, color='orange', linestyle='--', label=f'-1 Std: {lower_1std}%')
+    ax1.axhline(upper_custom_std, color='darkgreen', linestyle='--', label=f'+{std_multiplier} Std: {upper_custom_std}%')
+    ax1.axhline(lower_custom_std, color='darkred', linestyle='--', label=f'-{std_multiplier} Std: {lower_custom_std}%')
 
-    plt.xlabel('Date')
-    plt.ylabel('365-Day Gain Percentage (%)')
-    plt.title(f'{symbol} - 365-Day Price Gain % Over Time')
-    plt.legend(loc='upper center')
+    ax1.set_title(f'{symbol} - 365-Day Gain %')
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel('365-Day Gain Percentage (%)')
+    ax1.legend(loc='upper center')
+
+    # --- Right Plot: Price Plot ---
+    ax2 = axs[1]
+    if 'Close' in data.columns:
+        sns.lineplot(data=data, x='Date', y='Close', ax=ax2, color='blue', label='Close Price')
+        ax2.set_title(f'{symbol} - Closing Price Over Time')
+        ax2.set_xlabel('Date')
+        ax2.set_ylabel('Price')
+        ax2.legend()
+    else:
+        ax2.text(0.5, 0.5, "No 'Close' price data available", horizontalalignment='center', verticalalignment='center', transform=ax2.transAxes)
+        ax2.set_title(f'{symbol} - Closing Price Over Time')
+        ax2.set_axis_off()
+
     plt.tight_layout()
     os.makedirs(PLOTS_DIR, exist_ok=True)
-    plt.savefig(os.path.join(PLOTS_DIR, f"{symbol}_gain_plot.jpg"), format='jpg', dpi=300)
+    plt.savefig(os.path.join(PLOTS_DIR, f"{symbol}_gain_price_plot.jpg"), format='jpg', dpi=300)
     plt.close()

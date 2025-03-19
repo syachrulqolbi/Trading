@@ -49,7 +49,7 @@ def backtest_weekly_investment(df: pd.DataFrame, initial_balance: float, invest_
                 cash_invest += invest_per_week
                 avg_trade_price = sum(p * l for p, l in zip(list_trade_price, list_lot_size)) / sum(list_lot_size)
                 if price < avg_trade_price * (1 - std / 100.0):
-                    print(f"🚨 {df['Symbol'].iloc[0] if 'Symbol' in df.columns else ''}: Price dropped below avg trade price - std at {row['Week']}. Portfolio wiped out.")
+                    print(f"🚨 {df['Symbol'].iloc[0] if 'Symbol' in df.columns else ''}: Price dropped below avg trade price - std ({std}) at {row['Week']}. Portfolio wiped out.")
                     cash_invest = 0
                     break
 

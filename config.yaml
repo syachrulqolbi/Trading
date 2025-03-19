@@ -24,6 +24,16 @@ symbols_yfinance:
   BBVA.BM: "BBVA.MC"
   CABK.BM: "CABK.MC"
   SAN.BM: "SAN.MC"
+  ADAUSD: "ADA-USD"
+  AVAXUSD: "AVAX-USD"
+  BNBUSD: "BNB-USD"
+  BTCUSD: "BTC-USD"
+  DOGEUSD: "DOGE-USD"
+  ETHUSD: "ETH-USD"
+  LINKUSD: "LINK-USD"
+  SOLUSD: "SOL-USD"
+  TRXUSD: "TRX-USD"
+  XRPUSD: "XRP-USD"
 
 symbol_coefficients:
   JPN225: 0.01
@@ -43,7 +53,7 @@ symbol_coefficients:
   WFC.NYSE: 1  
   CBA.ASX: 0.6
   NAB.ASX: 0.6
-  BNP.EPA: 1.08
+  BNP.EPA: 2.19
   BARC.LSE: 1.29
   HSBA.LSE: 1.29
   ISP.MIL: 1.08
@@ -51,9 +61,21 @@ symbol_coefficients:
   BBVA.BM: 1.08
   CABK.BM: 1.08
   SAN.BM: 1.08
+  ADAUSD: 100
+  AVAXUSD: 1.01
+  BNBUSD: 0.1
+  BTCUSD: 0.01
+  DOGEUSD: 1000
+  ETHUSD: 0.1
+  LINKUSD: 2.5
+  SOLUSD: 1
+  TRXUSD: 1000
+  XRPUSD: 600
+
+
   
 
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
 daily_interval: "1d"  # Use 1-day interval for historical daily data
 output_directory: "."  # Directory where CSV files will be saved
-std_multiplier: 1.96 # 68% within ±1σ, 75% within ±1.15σ, 80% within ±1.28σ, 85% within ±1.44σ, 90% within ±1.645σ, 95% within ±1.96σ, 99% within ±2.576σ, and 99.7% within ±3σ.
+std_multiplier: 3 # 68% within ±1σ, 75% within ±1.15σ, 80% within ±1.28σ, 85% within ±1.44σ, 90% within ±1.645σ, 95% within ±1.96σ, 99% within ±2.576σ, 99.7% within ±3σ, and 99.9% within ±3.291σ.

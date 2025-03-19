@@ -2,7 +2,7 @@ import pandas as pd
 from scipy.stats import zscore
 
 def analyze_365_day_gain(data: pd.DataFrame, symbol: str, std_multiplier: float):
-    """Analyze average gain and std-based thresholds."""
+    """Analyze average gain and std-based thresholds with separate std for gain >=0 and <0."""
     data = data.copy()
     data["Date"] = pd.to_datetime(data["Datetime"], errors="coerce")
     data.sort_values("Date", inplace=True)
@@ -23,11 +23,15 @@ def analyze_365_day_gain(data: pd.DataFrame, symbol: str, std_multiplier: float)
 
     avg = round(data["Price_Gain_Percentage"].mean(), 2)
 
-    z_scores = zscore(data["Price_Gain_Percentage"])
-    filtered_data = data[(z_scores <= std_multiplier)]
-    filtered_std = round(filtered_data["Price_Gain_Percentage"].std(), 2)
+    # Separate stds for gain >= 0 and gain < 0
+    pos_std = data.loc[data["Price_Gain_Percentage"] >= 0, "Price_Gain_Percentage"].std()
+    neg_std = data.loc[data["Price_Gain_Percentage"] < 0, "Price_Gain_Percentage"].std()
 
-    upper = round(avg + std_multiplier * filtered_std, 2)
-    lower = round(avg - std_multiplier * filtered_std, 2)
+    pos_std = 0.0 if pd.isna(pos_std) else pos_std
+    neg_std = 0.0 if pd.isna(neg_std) else neg_std
 
-    return data, avg, upper, lower, latest_date, latest_price
+    upper = round(avg + std_multiplier * pos_std, 2)
+    lower = round(avg - std_multiplier * neg_std, 2)
+
+    return data, avg, upper, lower, latest_date, latest_price, pos_std, neg_std
+

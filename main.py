@@ -1,9 +1,10 @@
 import os
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, date
 from data_fetcher import YahooFinanceDataFetcher
 from eda_utils import perform_eda
 from analyzer import analyze_365_day_gain
+from analyzer_max_drawdown import analyze_max_negative_gain
 from backtester import backtest_weekly_investment
 from plot_utils import plot_price_gain
 from google_sheet_api import GoogleSheetsUploader
@@ -26,21 +27,23 @@ def main():
     final_summary, analyzed_data = [], {}
 
     for symbol, df in symbol_data.items():
-        annotated_df, avg, upper, lower, latest_dt, latest_price = analyze_365_day_gain(
+        annotated_df, avg, upper, lower, latest_date, latest_price, pos_std, neg_std = analyze_365_day_gain(
             df, symbol, fetcher.std_multiplier
         )
+
+        # --- Max Negative Gain Analysis ---
+        df_maxloss, worst_drawdown, max_drawdown, _, _ = analyze_max_negative_gain(df, symbol)
+        print(f"\n📉 {symbol} - Worst Future Gain : {worst_drawdown}% | Max Drawdown: {max_drawdown}%")
 
         if avg is None:
             continue
 
-        std = round((upper - avg) / fetcher.std_multiplier, 2)
-        upper_1std = round(avg + std, 2)
-        lower_1std = round(avg - std, 2)
-        upper_1_97std = round(avg + 1.97 * std, 2)
-        lower_1_97std = round(avg - 1.97 * std, 2)
+        upper_1std = round(pos_std, 2)
+        lower_1std = round(-neg_std, 2)
+        upper_1_97std = round(1.97 * pos_std, 2)
+        lower_1_97std = round(-1.97 * neg_std, 2)
 
-        # Plot price gain distribution
-        plot_price_gain(annotated_df, symbol, avg, std, upper_1std, lower_1std, upper_1_97std, lower_1_97std)
+        plot_price_gain(annotated_df, symbol, avg, None, upper_1std, lower_1std, upper_1_97std, lower_1_97std, fetcher.std_multiplier)
 
         analyzed_data[symbol] = annotated_df
 
@@ -49,7 +52,7 @@ def main():
         ten_years_ago = pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=10)
         max_price = round(df[df["Datetime"] >= ten_years_ago]["Close"].max(), 2) if "Close" in df.columns else None
 
-        # Simulate backtest
+        # Simulate backtest using worst_drawdown instead of std
         portfolio_df, ar_invest, _, _ = backtest_weekly_investment(
             df,
             initial_balance=0,
@@ -57,17 +60,17 @@ def main():
             tp_percent=1.0,
             leverage=1000,
             coeff=fetcher.coeff_map.get(symbol),
-            std=abs(lower),
+            std=abs(worst_drawdown),
             start_date="1900-01-01",
-            end_date="2024-12-31"
+            end_date=str(date.today())
         )
 
         final_summary.append({
             "Symbol": symbol,
-            "Date": latest_dt,
+            "Date": latest_date,
             "Price": latest_price,
             "Max Price": max_price,
-            "Std": abs(lower),
+            "Worst Drawdown": abs(worst_drawdown),
             "Coefficient": fetcher.coeff_map.get(symbol),
             "Annual Return (Simulated)": ar_invest
         })
