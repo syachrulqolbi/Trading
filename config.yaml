@@ -1,4 +1,12 @@
 symbols_yfinance:
+  AUDUSD: "AUDUSD=X"
+  EURUSD: "EURUSD=X"
+  GBPUSD: "GBPUSD=X"
+  NZDUSD: "NZDUSD=X"
+  USDCAD: "CAD=X"
+  USDCHF: "CHF=X"
+  USDJPY: "JPY=X"
+  XAUUSD: "GC=F"
   AUS200: "^AXJO"   # Australian ASX 200 Index
   ESP35: "^IBEX"    # Spanish IBEX 35 Index
   EUSTX50: "^STOXX50E"  # Euro Stoxx 50 Index
@@ -36,6 +44,14 @@ symbols_yfinance:
   XRPUSD: "XRP-USD"
 
 symbol_coefficients:
+  AUDUSD: 1000
+  EURUSD: 1000
+  GBPUSD: 1000
+  NZDUSD: 1000
+  USDCAD: 741.78
+  USDCHF: 1135.87
+  USDJPY: 6.99
+  XAUUSD: 1
   JPN225: 0.01
   AUS200: 0.06
   SPX500: 0.10

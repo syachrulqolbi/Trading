@@ -52,12 +52,6 @@ def main():
         ten_years_ago = pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=10)
         max_price = round(df[df["Datetime"] >= ten_years_ago]["Close"].max(), 2) if "Close" in df.columns else None
 
-        # 🔧 Apply condition: if latest price < 50% of max price, adjust max_price using 95th percentile
-        if max_price and latest_price and latest_price < 0.5 * max_price:
-            adjusted_max_price = round(df["Close"].quantile(0.95), 2)
-            print(f"ℹ️ {symbol}: Adjusting max price from {max_price} → {adjusted_max_price} using 95th percentile due to high current price {latest_price}.")
-            max_price = adjusted_max_price
-
         # Simulate backtest using worst_drawdown instead of std
         portfolio_df, ar_invest, _, _ = backtest_weekly_investment(
             df,
