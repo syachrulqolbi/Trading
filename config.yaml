@@ -1,4 +1,8 @@
 symbols_yfinance:
+  AUDCAD: "AUDCAD=X"
+  AUDCHF: "AUDCHF=X"
+  AUDJPY: "AUDJPY=X"
+  AUDNZD: "AUDNZD=X"
   AUDUSD: "AUDUSD=X"
   EURUSD: "EURUSD=X"
   GBPUSD: "GBPUSD=X"
@@ -17,6 +21,15 @@ symbols_yfinance:
   SPX500: "^GSPC"   # S&P 500 Index
   UK100: "^FTSE"    # UK FTSE 100 Index
   US30: "^DJI"      # US Dow Jones Industrial Average
+  AAPL.NAS: "AAPL"
+  ABNB.NAS: "ABNB"
+  ABT.NYSE: "ABT"
+  ACN.NYSE: "ACN"
+  ADBE.NAS: "ADBE"
+  AMD.NAS: "AMD"
+  AMZN.NAS: "AMZN"
+  AVGO.NAS: "AVGO"
+  AXP.NYSE: "AXP"
   BAC.NYSE: "BAC"
   GS.NYSE: "GS"
   JPM.NYSE: "JPM"
@@ -24,7 +37,10 @@ symbols_yfinance:
   WFC.NYSE: "WFC"  
   CBA.ASX: "CBA.AX"
   NAB.ASX: "NAB.AX"
+  AI.EPA: "AI.PA"
+  AIR.EPA: "AIR.PA"
   BNP.EPA: "BNP.PA"
+  AZN.LSE: "AZN.L"
   BARC.LSE: "BARC.L"
   HSBA.LSE: "HSBA.L"
   ISP.MIL: "ISP.MI"
@@ -32,8 +48,17 @@ symbols_yfinance:
   BBVA.BM: "BBVA.MC"
   CABK.BM: "CABK.MC"
   SAN.BM: "SAN.MC"
+  ADS.XE: "ADS.DE"
+  ALV.XE: "ALV.DE"
+  ASML.EAS: "ASML.AS"
+  AAVEUSD: "AAVE-USD"
   ADAUSD: "ADA-USD"
+  ALGOUSD: "ALGO-USD"
+  APTUSD: "APT-USD"
+  ARBUSD: "ARB-USD"
+  ATOMUSD: "ATOM-USD"
   AVAXUSD: "AVAX-USD"
+  AXSUSD: "AXS-USD"
   BNBUSD: "BNB-USD"
   BTCUSD: "BTC-USD"
   DOGEUSD: "DOGE-USD"
@@ -44,6 +69,10 @@ symbols_yfinance:
   XRPUSD: "XRP-USD"
 
 symbol_coefficients:
+  AUDCAD: 740.21
+  AUDCHF: 1181.82
+  AUDJPY: 6.97
+  AUDNZD: 628.42
   AUDUSD: 1000
   EURUSD: 1000
   GBPUSD: 1000
@@ -62,6 +91,15 @@ symbol_coefficients:
   GER40: 0.10
   ESP35: 0.10
   US30: 0.14
+  AAPL.NAS: 4
+  ABNB.NAS: 1
+  ABT.NYSE: 1
+  ACN.NYSE: 1
+  ADBE.NAS: 1
+  AMD.NAS: 1
+  AMZN.NAS: 1
+  AVGO.NAS: 1
+  AXP.NYSE: 1
   BAC.NYSE: 1
   GS.NYSE: 1
   JPM.NYSE: 1
@@ -69,7 +107,10 @@ symbol_coefficients:
   WFC.NYSE: 1  
   CBA.ASX: 0.6
   NAB.ASX: 0.6
+  AI.EPA: 1.11
+  AIR.EPA: 1.11
   BNP.EPA: 2.19
+  AZN.LSE: 1.33
   BARC.LSE: 1.29
   HSBA.LSE: 1.29
   ISP.MIL: 1.08
@@ -77,8 +118,17 @@ symbol_coefficients:
   BBVA.BM: 1.08
   CABK.BM: 1.08
   SAN.BM: 1.08
+  ADS.XE: 0.93
+  ALV.XE: 1
+  ASML.EAS: 1.1
+  AAVEUSD: 0.5
   ADAUSD: 100
+  ALGOUSD: 25.29
+  APTUSD: 3
+  ARBUSD: 30.07
+  ATOMUSD: 2.49
   AVAXUSD: 1.01
+  AXSUSD: 0.5
   BNBUSD: 0.1
   BTCUSD: 0.01
   DOGEUSD: 1000
