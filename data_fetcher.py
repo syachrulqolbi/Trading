@@ -21,15 +21,23 @@ class YahooFinanceDataFetcher:
             return pd.DataFrame()
 
     def clean_data(self, data: pd.DataFrame, symbol: str) -> pd.DataFrame:
-        if data.empty: return data
+        if data.empty:
+            return data
+
         data = data.reset_index()
+
         if isinstance(data.columns, pd.MultiIndex):
             data.columns = data.columns.droplevel(1)
+
         data.rename(columns={"Date": "Datetime", "datetime": "Datetime"}, inplace=True)
         data["Datetime"] = pd.to_datetime(data["Datetime"], errors="coerce", utc=True).dt.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Convert to numeric and replace negative values with 0
         for col in ["Open", "High", "Low", "Close", "Volume"]:
             if col in data.columns:
                 data[col] = pd.to_numeric(data[col], errors="coerce")
+                data[col] = data[col].apply(lambda x: max(x, 0) if pd.notnull(x) else x)
+
         data["Symbol"] = symbol
         return data[["Symbol", "Datetime"] + [col for col in ["Open", "High", "Low", "Close", "Volume"] if col in data.columns]]
 
