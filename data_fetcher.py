@@ -36,7 +36,7 @@ class YahooFinanceDataFetcher:
         for col in ["Open", "High", "Low", "Close", "Volume"]:
             if col in data.columns:
                 data[col] = pd.to_numeric(data[col], errors="coerce")
-                data[col] = data[col].apply(lambda x: max(x, 0) if pd.notnull(x) else x)
+                data[col] = data[col].apply(lambda x: 0 if pd.notnull(x) and x < 0 else x)
 
         data["Symbol"] = symbol
         return data[["Symbol", "Datetime"] + [col for col in ["Open", "High", "Low", "Close", "Volume"] if col in data.columns]]

@@ -103,7 +103,7 @@ symbols_yfinance:
   ENI.MIL: "ENI.MI"
   ISP.MIL: "ISP.MI"
   RACE.MIL: "RACE.MI"
-  STLA.MIL: "STLA.MI"
+  STLA.MIL: "STLAM.MI"
   UCG.MIL: "UCG.MI"
   BBVA.BM: "BBVA.MC"
   CABK.BM: "CABK.MC"
@@ -130,7 +130,7 @@ symbols_yfinance:
   HIT.TSE: "6501.T"
   KEE.TSE: "6861.T"
   MUR.TSE: "6981.T"
-  NID.TSE: "9594.T"
+  NID.TSE: "6594.T"
   OL.TSE: "4661.T"
   SVN.TSE: "3382.T"
   TKY.TSE: "8035.T"
@@ -157,7 +157,7 @@ symbols_yfinance:
   ETHUSD: "ETH-USD"
   FETUSD: "FET-USD"
   FILUSD: "FIL-USD"
-  GRTUSD: "GRT-USD"
+  GRTUSD: "GRT1-USD"
   ICPUSD: "ICP-USD"
   IOTAUSD: "IOTA-USD"
   LINKUSD: "LINK-USD"
@@ -273,7 +273,7 @@ symbol_coefficients:
   HSBA.LSE: 1.29
   LSEG.LSE: 1.25
   SHEL.LSE: 1.33
-  ENEL.MIL: 0.88
+  ENEL.MIL: 9.78
   ENI.MIL: 1.13
   ISP.MIL: 1.08
   RACE.MIL: 1.11
@@ -286,10 +286,10 @@ symbol_coefficients:
   ADS.XE: 0.93
   ALV.XE: 1
   BAYN.FWB: 1
-  BEI.XE: 0.99
+  BEI.XE: 3
   BMW.XE: 1.01
   DTE.FWB: 1
-  DTG.FWB: 1
+  DTG.FWB: 18
   MBG.XE: 1
   MRK.XE: 1
   SIE.XE: 1
