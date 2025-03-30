@@ -49,6 +49,7 @@ symbols_yfinance:
   SPX500: "^GSPC"   # S&P 500 Index
   UK100: "^FTSE"    # UK FTSE 100 Index
   US30: "^DJI"      # US Dow Jones Industrial Average
+  ABBV.NYSE: "ABBV"
   AAPL.NAS: "AAPL"
   ABNB.NAS: "ABNB"
   ABT.NYSE: "ABT"
@@ -73,13 +74,63 @@ symbols_yfinance:
   CSCO.NAS: "CSCO"
   CVS.NYSE: "CVS"
   CVX.NYSE: "CVX"
+  DHR.NYSE: "DHR"
+  DIS.NYSE: "DIS"
+  GE.NYSE: "GE"
   GOOGL.NAS: "GOOGL"
   GS.NYSE: "GS"
+  HD.NYSE: "HD"
+  HMC.NYSE: "HMC"
+  HON.NAS: "HON"
+  IBM.NYSE: "IBM"
+  INTC.NAS: "INTC"
+  INTU.NAS: "INTU"
+  ISRG.NAS: "ISRG"
+  JD.NAS: "JD"
   JPM.NYSE: "JPM"
+  JNJ.NYSE: "JNJ"
   KO.NYSE: "KO"
+  LI.NAS: "LI"
+  LIN.NYSE: "LIN"
+  LLY.NYSE: "LLY"
+  LMT.NYSE: "LMT"
+  MA.NYSE: "MA"
+  MCD.NYSE: "MCD"
+  MDLZ.NYSE: "MDLZ"
+  META.NAS: "META"
+  MMM.NYSE: "MMM"
+  MRK.NYSE: "MRK"
   MS.NYSE: "MS"
   MSFT.NAS: "MSFT"
+  NEE.NYSE: "NEE"
+  NFLX.NAS: "NFLX"
+  NKE.NYSE: "NKE"
+  NOW.NYSE: "NOW"
   NVDA.NAS: "NVDA"
+  ORCL.NYSE: "ORCL"
+  PEP.NAS: "PEP"
+  PFE.NYSE: "PFE"
+  PG.NYSE: "PG"
+  PM.NYSE: "PM"
+  PYPL.NYSE: "PYPL"
+  QCOM.NAS: "QCOM"
+  RTX.NYSE: "RTX"
+  SAP.NYSE: "SAP"
+  SBUX.NAS: "SBUX"
+  SHOP.NYSE: "SHOP"
+  SONY.NYSE: "SONY"
+  T.NYSE: "T"
+  TMO.NYSE: "TMO"
+  TMUS.NAS: "TMUS"
+  TSLA.NAS: "TSLA"
+  TXN.NAS: "TXN"
+  UNH.NYSE: "UNH"
+  UNP.NYSE: "UNP"
+  UPS.NYSE: "UPS"
+  V.NYSE: "V"
+  VZ.NYSE: "VZ"
+  WMT.NYSE: "WMT"
+  XOM.NYSE: "XOM"
   WFC.NYSE: "WFC"  
   BHP.ASX: "BHP.AX"
   CBA.ASX: "CBA.AX"
@@ -223,7 +274,17 @@ symbol_coefficients:
   SPX500: 0.10
   UK100: 0.12
   US30: 0.14
-  AAPL.NAS: 4
+  AAPL.NAS: 1
+
+  VOD.LSE: 
+  HK.SGX: 
+  SGX.SGX: 
+  SIAIR.SGX:
+  WLMR.SGX:
+  VOLVA.SOMX:
+
+  ABBV.NYSE: 1
+  AAPL.NAS: 1
   ABNB.NAS: 1
   ABT.NYSE: 1
   ACN.NYSE: 1
@@ -247,13 +308,63 @@ symbol_coefficients:
   CSCO.NAS: 1
   CVS.NYSE: 1
   CVX.NYSE: 1
+  DHR.NYSE: 1
+  DIS.NYSE: 1
+  GE.NYSE: 1
   GOOGL.NAS: 1
   GS.NYSE: 1
+  HD.NYSE: 1
+  HMC.NYSE: 1
+  HON.NAS: 1
+  IBM.NYSE: 1
+  INTC.NAS: 1
+  INTU.NAS: 1
+  ISRG.NAS: 1
+  JD.NAS: 1
   JPM.NYSE: 1
+  JNJ.NYSE: 1
   KO.NYSE: 1
+  LI.NAS: 1
+  LIN.NYSE: 1
+  LLY.NYSE: 1
+  LMT.NYSE: 1
+  MA.NYSE: 1
+  MCD.NYSE: 1
+  MDLZ.NYSE: 1
+  META.NAS: 1
+  MMM.NYSE: 1
+  MRK.NYSE: 1
   MS.NYSE: 1
   MSFT.NAS: 1
+  NEE.NYSE: 1
+  NFLX.NAS: 1
+  NKE.NYSE: 1
+  NOW.NYSE: 1
   NVDA.NAS: 1
+  ORCL.NYSE: 1
+  PEP.NAS: 1
+  PFE.NYSE: 1
+  PG.NYSE: 1
+  PM.NYSE: 1
+  PYPL.NYSE: 1
+  QCOM.NAS: 1
+  RTX.NYSE: 1
+  SAP.NYSE: 1
+  SBUX.NAS: 1
+  SHOP.NYSE: 1
+  SONY.NYSE: 1
+  T.NYSE: 1  
+  TMO.NYSE: 1
+  TMUS.NAS: 1
+  TSLA.NAS: 1
+  TXN.NAS: 1
+  UNH.NYSE: 1
+  UNP.NYSE: 1
+  UPS.NYSE: 1
+  V.NYSE: 1  
+  VZ.NYSE: 1
+  WMT.NYSE: 1
+  XOM.NYSE: 1
   WFC.NYSE: 1  
   BHP.ASX: 0.69
   CBA.ASX: 0.6
@@ -273,6 +384,7 @@ symbol_coefficients:
   HSBA.LSE: 1.29
   LSEG.LSE: 1.25
   SHEL.LSE: 1.33
+  ULVR.LSE: 1.34
   ENEL.MIL: 9.78
   ENI.MIL: 1.13
   ISP.MIL: 1.08

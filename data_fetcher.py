@@ -1,7 +1,8 @@
-import yaml
 import os
+import yaml
 import yfinance as yf
 import pandas as pd
+
 
 class YahooFinanceDataFetcher:
     def __init__(self, config_path: str):
@@ -32,7 +33,6 @@ class YahooFinanceDataFetcher:
         data.rename(columns={"Date": "Datetime", "datetime": "Datetime"}, inplace=True)
         data["Datetime"] = pd.to_datetime(data["Datetime"], errors="coerce", utc=True).dt.strftime("%Y-%m-%d %H:%M:%S")
 
-        # Convert to numeric and replace negative values with 0
         for col in ["Open", "High", "Low", "Close", "Volume"]:
             if col in data.columns:
                 data[col] = pd.to_numeric(data[col], errors="coerce")
@@ -49,3 +49,11 @@ class YahooFinanceDataFetcher:
             if not raw_data.empty:
                 symbol_data[symbol] = self.clean_data(raw_data, symbol)
         return symbol_data
+
+    def get_data(self) -> pd.DataFrame:
+        """
+        Fetch, clean, and combine all symbol data into a single DataFrame.
+        """
+        symbol_data = self.process_all_symbols()
+        df = pd.concat(symbol_data.values(), ignore_index=True)
+        return df

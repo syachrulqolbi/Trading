@@ -4,7 +4,7 @@ from datetime import datetime, date
 from data_fetcher import YahooFinanceDataFetcher
 from eda_utils import perform_eda
 from analyzer import analyze_365_day_gain
-from analyzer_max_drawdown import analyze_max_negative_gain
+from Trading.analyzer import analyze_max_negative_gain
 from backtester import backtest_weekly_investment
 from plot_utils import plot_price_gain
 from google_sheet_api import GoogleSheetsUploader

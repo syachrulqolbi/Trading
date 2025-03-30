@@ -6,7 +6,6 @@ PLOTS_DIR = os.path.join(os.getcwd(), "plots")
 
 def backtest_weekly_investment(df: pd.DataFrame, initial_balance: float, invest_per_week: float, tp_percent: float,
                                 leverage: float, coeff: float, std: float, start_date: str = None, end_date: str = None):
-    df = df.copy()
     df["Date"] = pd.to_datetime(df["Datetime"]).dt.date
     df = df.sort_values("Date")
 
