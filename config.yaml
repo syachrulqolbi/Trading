@@ -96,7 +96,7 @@ symbols_yfinance:
   LMT.NYSE: "LMT"
   MA.NYSE: "MA"
   MCD.NYSE: "MCD"
-  MDLZ.NYSE: "MDLZ"
+  MDLZ.NAS: "MDLZ"
   META.NAS: "META"
   MMM.NYSE: "MMM"
   MRK.NYSE: "MRK"
@@ -112,7 +112,7 @@ symbols_yfinance:
   PFE.NYSE: "PFE"
   PG.NYSE: "PG"
   PM.NYSE: "PM"
-  PYPL.NYSE: "PYPL"
+  PYPL.NAS: "PYPL"
   QCOM.NAS: "QCOM"
   RTX.NYSE: "RTX"
   SAP.NYSE: "SAP"
@@ -330,7 +330,7 @@ symbol_coefficients:
   LMT.NYSE: 1
   MA.NYSE: 1
   MCD.NYSE: 1
-  MDLZ.NYSE: 1
+  MDLZ.NAS: 1
   META.NAS: 1
   MMM.NYSE: 1
   MRK.NYSE: 1
@@ -346,7 +346,7 @@ symbol_coefficients:
   PFE.NYSE: 1
   PG.NYSE: 1
   PM.NYSE: 1
-  PYPL.NYSE: 1
+  PYPL.NAS: 1
   QCOM.NAS: 1
   RTX.NYSE: 1
   SAP.NYSE: 1
