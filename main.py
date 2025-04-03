@@ -1,90 +1,69 @@
 import os
-import pandas as pd
-from datetime import datetime, date
 from data_fetcher import YahooFinanceDataFetcher
-from eda_utils import perform_eda
-from analyzer import analyze_365_day_gain
-from Trading.analyzer import analyze_max_negative_gain
-from backtester import backtest_weekly_investment
-from plot_utils import plot_price_gain
+from mt5_fetcher import MT5DataFetcher
 from google_sheet_api import GoogleSheetsUploader
+from analyzer import run_analysis, run_all_analyses
 
-# === Setup ===
+# ========== Setup ========== #
 BASE_DIR = os.getcwd()
 CONFIG_PATH = os.path.join(BASE_DIR, "config.yaml")
 CREDENTIAL_PATH = os.path.join(BASE_DIR, "credential_google_sheets.json")
 PLOTS_DIR = os.path.join(BASE_DIR, "plots")
+os.makedirs(PLOTS_DIR, exist_ok=True)
+
+# ========== Parameters ========== #
+fetch_mt5 = True
+STD_MULTIPLIER = 1.96
+initial_balance = 100
+invest_per_week = 10
+tp_percent = 1.0
+leverage = 1000
+min_years_required = 1
 
 def main():
+    # ========== Fetch All Data ========== #
     fetcher = YahooFinanceDataFetcher(CONFIG_PATH)
-    symbol_data = fetcher.process_all_symbols()
-    full_df = pd.concat(symbol_data.values(), ignore_index=True)
+    full_df = fetcher.get_data()
+    symbol_list = full_df["Symbol"].unique()
 
-    # --- EDA Summary ---
-    print("\n📊 EDA Summary:")
-    print(perform_eda(full_df))
+    # ========== Fetch MT5 Live Prices ========== #
+    if fetch_mt5:
+        df = MT5DataFetcher(full_df, symbol_list)
 
-    final_summary, analyzed_data = [], {}
+    # ========== Run Single Symbol Analysis ========== #
+    symbol = "ITX.BM"
+    data, dd_thresh, gain_thresh = run_analysis(
+        df=full_df,
+        symbol=symbol,
+        std_multiplier=STD_MULTIPLIER,
+        plots_dir=PLOTS_DIR,
+        tp_percent=tp_percent,
+        leverage=leverage,
+        coeff=fetcher.coeff_map.get(symbol),
+        initial_balance=initial_balance,
+        invest_per_week=invest_per_week,
+        min_years_required=min_years_required
+    )
 
-    for symbol, df in symbol_data.items():
-        annotated_df, avg, upper, lower, latest_date, latest_price, pos_std, neg_std = analyze_365_day_gain(
-            df, symbol, fetcher.std_multiplier
-        )
+    # ========== Run All Analyses ========== #
+    df = run_all_analyses(
+        full_df=full_df,
+        symbol_list=symbol_list,
+        std_multiplier=STD_MULTIPLIER,
+        plots_dir=PLOTS_DIR,
+        tp_percent=tp_percent,
+        leverage=leverage,
+        coeff_map=fetcher.coeff_map,
+        initial_balance=initial_balance,
+        invest_per_week=invest_per_week,
+        min_years_required=min_years_required
+    )
 
-        # --- Max Negative Gain Analysis ---
-        df_maxloss, worst_drawdown, max_drawdown, _, _ = analyze_max_negative_gain(df, symbol)
-        print(f"\n📉 {symbol} - Worst Future Gain : {worst_drawdown}% | Max Drawdown: {max_drawdown}%")
-
-        if avg is None:
-            continue
-
-        upper_1std = round(pos_std, 2)
-        lower_1std = round(-neg_std, 2)
-        upper_1_97std = round(1.97 * pos_std, 2)
-        lower_1_97std = round(-1.97 * neg_std, 2)
-
-        plot_price_gain(annotated_df, symbol, avg, None, upper_1std, lower_1std, upper_1_97std, lower_1_97std, fetcher.std_multiplier)
-
-        analyzed_data[symbol] = annotated_df
-
-        # Compute max price (past 10 years)
-        df["Datetime"] = pd.to_datetime(df["Datetime"], errors="coerce", utc=True)
-        ten_years_ago = pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=10)
-        max_price = round(df[df["Datetime"] >= ten_years_ago]["Close"].max(), 2) if "Close" in df.columns else None
-
-        # Simulate backtest using worst_drawdown instead of std
-        portfolio_df, ar_invest, _, _ = backtest_weekly_investment(
-            df,
-            initial_balance=0,
-            invest_per_week=200,
-            tp_percent=1.0,
-            leverage=1000,
-            coeff=fetcher.coeff_map.get(symbol),
-            std=abs(worst_drawdown),
-            start_date="1900-01-01",
-            end_date=str(date.today())
-        )
-
-        final_summary.append({
-            "Symbol": symbol,
-            "Date": latest_date,
-            "Price": latest_price,
-            "Max Price": max_price,
-            "Worst Drawdown": abs(worst_drawdown),
-            "Coefficient": fetcher.coeff_map.get(symbol),
-            "Annual Return (Simulated)": ar_invest
-        })
-
-    # --- Final Summary ---
-    final_df = pd.DataFrame(final_summary)
-    print("\n✅ Final Summary:")
-    print(final_df)
-
-    # --- Upload to Google Sheets ---
+    # ========== Upload to Google Sheets ========== #
     try:
         print("\n📤 Uploading to Google Sheets...")
         uploader = GoogleSheetsUploader(CREDENTIAL_PATH, "Financial Report - Indonesia")
-        uploader.upload_dataframe(final_df, "Overview")
+        uploader.upload_dataframe(df, "Overview")
         print("✅ Upload successful!")
     except Exception as e:
         print(f"❌ Upload failed: {e}")

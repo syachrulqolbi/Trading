@@ -2,8 +2,6 @@ import pandas as pd
 from datetime import timedelta
 from plot_utils import plot_analysis
 from datetime import timedelta
-from scipy.stats import linregress
-import math 
 
 def analyze_drawdown_and_gain(data: pd.DataFrame, symbol: str, min_years_rquired: int):
     """
@@ -283,13 +281,19 @@ def run_all_analyses(
         latest_row = df.sort_values("Datetime").iloc[-1]
         latest_date = latest_row["Datetime"]
         latest_price = latest_row["Close"]
-        max_price = df["Close"].max()
+        df["Date"] = pd.to_datetime(df["Datetime"])
+        cutoff_date = df["Date"].max() - timedelta(days=365 * min_years_required)
+        recent_df = df[df["Date"] >= cutoff_date]
+
+        max_price = recent_df["Close"].max()
+        min_price = recent_df["Close"].min()
         ar_invest = df["AR_Invest"].iloc[-1] if "AR_Invest" in df.columns else None
 
         final_summary.append({
             "Symbol": symbol,
             "Date": latest_date,
             "Price": latest_price,
+            "Min Price": min_price,
             "Max Price": max_price,
             "Max Gain": gain_thresh,
             "Worst Drawdown": dd_thresh,
