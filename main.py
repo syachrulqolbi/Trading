@@ -18,7 +18,7 @@ initial_balance = 100
 invest_per_week = 10
 tp_percent = 1.0
 leverage = 1000
-min_years_required = 1
+min_years_required = 5
 
 def main():
     # ========== Fetch All Data ========== #

@@ -74,4 +74,4 @@ def plot_analysis(df, df_backtest, symbol, dd_thresh, gain_thresh, plots_dir, st
     os.makedirs(plots_dir, exist_ok=True)
     plot_path = os.path.join(plots_dir, f"{symbol}_analysis_plot.png")
     plt.savefig(plot_path, dpi=300)
-    plt.show()
+    plt.close(fig)

@@ -459,8 +459,6 @@ symbol_coefficients:
   ZECUSD: 1
 
 
-  
-
 daily_period: "30y"   # Fetch daily-level data for the past 10 years
 daily_interval: "1d"  # Use 1-day interval for historical daily data
 output_directory: "."  # Directory where CSV files will be saved

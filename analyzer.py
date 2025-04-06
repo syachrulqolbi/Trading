@@ -201,8 +201,8 @@ def run_analysis(
     date_range_years = (df["Date"].max() - df["Date"].min()).days / 365.25
 
     if date_range_years < min_years_required:
-        print(f"⏭️ Skipping {symbol}: only {round(date_range_years, 2)} years of data (< {min_years_required} years).")
-        return None, None, None, None
+        print(f"⏭️ {symbol}: only {round(date_range_years, 2)} years of data (< {min_years_required} years).")
+        min_years_required = (df["Date"].max() - df["Date"].min()).days / 365.25
 
     data = analyze_drawdown_and_gain(df, symbol, min_years_required)
     data = data.dropna(subset=["Max_Drawdown", "Max_Gain"])
@@ -285,8 +285,8 @@ def run_all_analyses(
         cutoff_date = df["Date"].max() - timedelta(days=365 * min_years_required)
         recent_df = df[df["Date"] >= cutoff_date]
 
-        max_price = recent_df["Close"].max()
-        min_price = recent_df["Close"].min()
+        max_price = recent_df["Close"].quantile(0.9)
+        min_price = recent_df["Close"].quantile(0.1)
         ar_invest = df["AR_Invest"].iloc[-1] if "AR_Invest" in df.columns else None
 
         final_summary.append({
