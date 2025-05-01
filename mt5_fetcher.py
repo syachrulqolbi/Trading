@@ -28,8 +28,6 @@ def MT5DataFetcher(df: pd.DataFrame, min_years_required: int = 1):
         new_data["Close"] = new_data["close"]
 
         latest_price = new_data["Close"].iloc[-1]
-        #min_price = new_data["Close"].quantile(0.005)
-        #max_price = new_data["Close"].quantile(0.995)
         min_coeff = (df.at[i, "Min Price"] / df.at[i, "Price"])
         max_coeff = (df.at[i, "Max Price"] / df.at[i, "Price"])
         min_price = latest_price * min_coeff

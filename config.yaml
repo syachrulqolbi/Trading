@@ -28,7 +28,6 @@ symbols_yfinance:
   NZDCHF: "NZDCHF=X"
   NZDJPY: "NZDJPY=X"
   NZDUSD: "NZDUSD=X"
-  ZARJPY: "ZARJPY=X"
   USDCAD: "CAD=X"
   USDCHF: "CHF=X"
   USDJPY: "JPY=X"
@@ -258,7 +257,6 @@ symbol_coefficients:
   USDJPY: 6.99
   USDMXN: 50.45
   USDZAR: 57.49
-  ZARJPY: 6.89
   XAGUSD: 50
   XAUUSD: 1
   XBRUSD: 10

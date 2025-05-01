@@ -235,7 +235,7 @@ def run_analysis(
         plot_analysis(df, df_backtest, symbol, dd_thresh, gain_thresh, plots_dir, std_multiplier,
                       tp_percent, ar_invest, ar_saving, ar_saving_interest, stopped_early)
 
-    return data, dd_thresh, gain_thresh
+    return data, dd_thresh, gain_thresh, df
 
 def run_all_analyses(
     full_df: pd.DataFrame,
@@ -254,6 +254,7 @@ def run_all_analyses(
     """
     results = {}
     final_summary = []
+    df_final = None
 
     for symbol in symbol_list:
         print(f"\n📊 Analyzing {symbol}...")
@@ -262,7 +263,7 @@ def run_all_analyses(
             print(f"⚠️ Skipping {symbol}: no data available.")
             continue
 
-        data, dd_thresh, gain_thresh = run_analysis(
+        data, dd_thresh, gain_thresh, df = run_analysis(
             df,
             symbol=symbol,
             std_multiplier=std_multiplier,
@@ -288,6 +289,11 @@ def run_all_analyses(
         max_price = recent_df["Close"].quantile(0.9)
         min_price = recent_df["Close"].quantile(0.1)
         ar_invest = df["AR_Invest"].iloc[-1] if "AR_Invest" in df.columns else None
+        
+        if df_final is None:
+            df_final = df
+        else:
+            df_final = pd.concat([df_final, df], ignore_index=True)
 
         final_summary.append({
             "Symbol": symbol,
@@ -303,5 +309,7 @@ def run_all_analyses(
 
     # --- Final Summary ---
     final_df = pd.DataFrame(final_summary)
+
+    print(df_final)
 
     return final_df
