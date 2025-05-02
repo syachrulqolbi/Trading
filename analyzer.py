@@ -308,8 +308,6 @@ def run_all_analyses(
         })
 
     # --- Final Summary ---
-    final_df = pd.DataFrame(final_summary)
+    df = pd.DataFrame(final_summary)
 
-    print(df_final)
-
-    return final_df
+    return df, df_final
