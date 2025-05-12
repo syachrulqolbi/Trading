@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import timedelta
-from plot_utils import plot_analysis
+from plot_utils import plot_analysis, plot_average_standardized_drawdown
 import numpy as np
 
 def backtest_weekly_investment(
@@ -202,7 +202,7 @@ def run_analysis(
         df.copy(),
         initial_balance=initial_balance,
         invest_per_week=invest_per_week,
-        tp_percent=daily_chg,
+        tp_percent=daily_chg*100,
         leverage=leverage,
         coeff=coeff,
         std=-dd_thresh,
@@ -291,5 +291,26 @@ def run_all_analyses(
 
     # --- Final Summary ---
     df_summary = pd.DataFrame(final_summary)
+    df_drawdown_avg, th_drawdown = standardize_max_drawdown(df_summary, df_final)
+
+    # Plot if needed
+    if plots_dir:
+        plot_average_standardized_drawdown(df_drawdown_avg, th_drawdown, plots_dir)
 
     return df_summary, df_final
+
+def standardize_max_drawdown(df_summary, df_final):
+    worst_drawdown_dict = df_summary.set_index('Symbol')['Worst Drawdown'].to_dict()
+
+    df_final['Standardized_Drawdown'] = df_final.apply(
+        lambda row: min(abs(row['Max_Drawdown']) / abs(worst_drawdown_dict.get(row['Symbol'], np.nan)) * 100, 100) 
+        if row['Max_Drawdown'] < 0 and row['Symbol'] in worst_drawdown_dict else 0, 
+        axis=1
+    )
+
+    df_drawdown_avg = df_final.groupby('Date')['Standardized_Drawdown'].mean().reset_index()
+    df_drawdown_avg.rename(columns={'Standardized_Drawdown': 'Avg_Standardized_Drawdown'}, inplace=True)
+
+    th_drawdown = df_drawdown_avg['Avg_Standardized_Drawdown'].quantile(0.95)
+
+    return df_drawdown_avg, th_drawdown
