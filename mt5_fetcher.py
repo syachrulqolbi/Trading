@@ -7,7 +7,9 @@ def MT5DataFetcher(df: pd.DataFrame, min_years_required: int = 1):
         print("MT5 initialize() failed:", mt5.last_error())
         return df
 
-    updated_rows = []
+    # Ensure Decimal column exists
+    if "Decimal" not in df.columns:
+        df["Decimal"] = 0  # Default value
 
     for i, row in df.iterrows():
         symbol = row["Symbol"]
@@ -15,6 +17,16 @@ def MT5DataFetcher(df: pd.DataFrame, min_years_required: int = 1):
             print(f"❌ Can't select {symbol}")
             continue
 
+        # Retrieve Decimal Information
+        symbol_info = mt5.symbol_info(symbol)
+        if symbol_info is None:
+            print(f"❌ No symbol info for {symbol}")
+            continue
+        
+        decimal_places = symbol_info.digits
+        df.at[i, "Decimal"] = decimal_places
+
+        # Fetching historical data
         to_date = datetime.now()
         from_date = to_date - timedelta(days=365 * min_years_required)
 
@@ -28,16 +40,21 @@ def MT5DataFetcher(df: pd.DataFrame, min_years_required: int = 1):
         new_data["Close"] = new_data["close"]
 
         latest_price = new_data["Close"].iloc[-1]
-        min_coeff = (df.at[i, "Min Price"] / df.at[i, "Price"])
-        max_coeff = (df.at[i, "Max Price"] / df.at[i, "Price"])
-        min_price = latest_price * min_coeff
-        max_price = latest_price * max_coeff
 
-        df.at[i, "Price"] = latest_price
-        df.at[i, "Min Price"] = min_price
-        df.at[i, "Max Price"] = max_price
+        # Ensure the columns exist and calculate safely
+        if "Min Price" in df.columns and "Max Price" in df.columns and "Price" in df.columns:
+            min_coeff = (df.at[i, "Min Price"] / df.at[i, "Price"]) if df.at[i, "Price"] != 0 else 0
+            max_coeff = (df.at[i, "Max Price"] / df.at[i, "Price"]) if df.at[i, "Price"] != 0 else 0
+            min_price = latest_price * min_coeff
+            max_price = latest_price * max_coeff
 
-        print(f"✅ {symbol}: updated MT5 Price = {latest_price:.4f}, Min = {min_price:.4f}, Max = {max_price:.4f}")
+            df.at[i, "Price"] = latest_price
+            df.at[i, "Min Price"] = min_price
+            df.at[i, "Max Price"] = max_price
+
+            print(f"✅ {symbol}: updated MT5 Price = {latest_price:.{decimal_places}f}, Min = {min_price:.{decimal_places}f}, Max = {max_price:.{decimal_places}f}")
+        else:
+            print(f"⚠️ Missing Price columns for {symbol}. Skipping price update.")
 
     mt5.shutdown()
     return df
