@@ -101,7 +101,7 @@ def plot_average_standardized_drawdown(df_drawdown_avg, th_drawdown, plots_dir):
 
     # Plotting Quantile Line
     plt.axhline(y=th_drawdown, color='red', linestyle='--', linewidth=1.2, 
-                label=f"0.9 Quantile: {th_drawdown:.2f}%")
+                label=f"0.95 Quantile: {th_drawdown:.2f}%")
 
     plt.title("Average Standardized Max Drawdown by Date")
     plt.xlabel("Date")
