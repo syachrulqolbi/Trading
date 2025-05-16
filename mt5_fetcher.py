@@ -39,14 +39,15 @@ def MT5DataFetcher(df: pd.DataFrame, min_years_required: int = 1):
         new_data["Datetime"] = pd.to_datetime(new_data["time"], unit="s")
         new_data["Close"] = new_data["close"]
 
-        latest_price = new_data["Close"].iloc[-1]
+        latest_price = round(new_data["Close"].iloc[-1], decimal_places)
 
         # Ensure the columns exist and calculate safely
-        if "Min Price" in df.columns and "Max Price" in df.columns and "Price" in df.columns:
+        if all(col in df.columns for col in ["Min Price", "Max Price", "Price"]):
             min_coeff = (df.at[i, "Min Price"] / df.at[i, "Price"]) if df.at[i, "Price"] != 0 else 0
             max_coeff = (df.at[i, "Max Price"] / df.at[i, "Price"]) if df.at[i, "Price"] != 0 else 0
-            min_price = latest_price * min_coeff
-            max_price = latest_price * max_coeff
+            
+            min_price = round(latest_price * min_coeff, decimal_places)
+            max_price = round(latest_price * max_coeff, decimal_places)
 
             df.at[i, "Price"] = latest_price
             df.at[i, "Min Price"] = min_price

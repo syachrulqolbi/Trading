@@ -195,7 +195,7 @@ def run_analysis(
     gain_mean, gain_std = df["Max_Gain"].mean(), df["Max_Gain"].std()
     dd_thresh = max(dd_mean - std_multiplier * dd_std, -100)
     gain_thresh = gain_mean + std_multiplier * gain_std
-    daily_chg = df["Close"].pct_change().abs().mean()
+    daily_chg = round(df["Close"].pct_change().abs().mean(), 2)
 
     # Run backtest
     df_backtest, ar_invest, ar_saving, ar_saving_interest, stopped_early = backtest_weekly_investment(
@@ -215,7 +215,7 @@ def run_analysis(
     # Plot if needed
     if plots_dir:
         plot_analysis(df, df_backtest, symbol, dd_thresh, gain_thresh, plots_dir, std_multiplier,
-                      daily_chg, ar_invest, ar_saving, ar_saving_interest, stopped_early)
+                      daily_chg*100, ar_invest, ar_saving, ar_saving_interest, stopped_early)
 
     return df, dd_thresh, gain_thresh, daily_chg
 
