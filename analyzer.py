@@ -195,7 +195,7 @@ def run_analysis(
     gain_mean, gain_std = df["Max_Gain"].mean(), df["Max_Gain"].std()
     dd_thresh = max(dd_mean - std_multiplier * dd_std, -100)
     gain_thresh = gain_mean + std_multiplier * gain_std
-    daily_chg = round(df["Close"].pct_change().abs().mean(), 2)
+    daily_chg = round(df["Close"].pct_change().abs().mean(), 7)
 
     # Run backtest
     df_backtest, ar_invest, ar_saving, ar_saving_interest, stopped_early = backtest_weekly_investment(
